@@ -11,7 +11,7 @@ import (
 
 func main(){
 
-	fileSize := 100 // 2GB
+	fileSize := 2000 // 2GB
 
 	CheckTestFile(fileSize);
 
