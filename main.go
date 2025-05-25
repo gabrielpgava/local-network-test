@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"os/exec"
 )
 
 var embeddedFile fs.FS
@@ -29,8 +28,8 @@ func main(){
 	mux := http.NewServeMux()
 	mux.Handle("/", fileserver)
 	mux.Handle("/download", http.HandlerFunc(DownloadTestFile))
-	log.Fatal(http.ListenAndServe(":8080", mux))
 	fmt.Println("Server started on http://localhost:8080")
+	log.Fatal(http.ListenAndServe(":8080", mux))
 }
 
 
@@ -49,12 +48,28 @@ func CheckTestFile(fileSize int) {
 			fmt.Println("Error creating directory:", err)
 			return
 		}
-		cmd := exec.Command("dd", "if=/dev/zero", "of=./public/downloadFile.bin", "bs=1M", fmt.Sprintf("count=%d", fileSize))
-		output, err := cmd.CombinedOutput()
+		err := CreateLargeFile("./public/downloadFile.bin", fileSize)
         if err != nil {
                 fmt.Println("Error executing command:", err)
                 return
         }
-        fmt.Println(string(output))
+        fmt.Println("File created successfully at ./public/downloadFile.bin")
 	}
+}
+
+
+func CreateLargeFile(path string, sizeMB int) error {
+    file, err := os.Create(path)
+    if err != nil {
+        return err
+    }
+    defer file.Close()
+
+    buf := make([]byte, 1024*1024) // 1MB buffer
+    for i := 0; i < sizeMB; i++ {
+        if _, err := file.Write(buf); err != nil {
+            return err
+        }
+    }
+    return nil
 }

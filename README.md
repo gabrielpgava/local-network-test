@@ -1,5 +1,7 @@
+# Local Network Test
+
 Application created to test the connection between computers on the local network.  
-One of the computers must act as a server, and the others should access IPLOCAL:3000 to verify that the connection is successfully established.
+One of the computers must act as a server, and the others should access IPLOCAL:8080 to verify that the connection is successfully established.
 
 It includes a small built-in speed test to check if the network speed is satisfactory. The test is performed with the server hosting the site on the local network.
 
@@ -17,12 +19,18 @@ go run main.go
 
 The application automatically generates the test file based on the `fileSize` variable defined in the `main` program. This file is placed in the `public` folder.  
 
-For a more accurate local network test, it is recommended to set the `count` parameter to 2000.
+For a more accurate local network test, the default value of the `fileSize` parameter is set to 2000 (for a 2GB file).
 
-To manually create a 100 MB test file, you can use the following command:
+## Building the Application
 
-```bash
-dd if=/dev/zero of=public/test-file.bin bs=1M count=100
-```
+### Build using Makefile
+Use `make all` to compile the project for the main platforms.
 
-**Note for Windows users:** The `dd` command is not available by default and must be installed separately. On most other platforms, it is natively available.
+To compile for a specific platform only, use `make {platform}`.  
+Available options: `linux`, `windows`, `mac`, `mac-arm`.
+
+To remove generated binaries, run `make clean`.
+
+---
+
+Made with ❤️ by Bi-Ga Tech
