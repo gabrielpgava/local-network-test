@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
+	"io/fs"
 	"log"
 	"net/http"
 	"os"
 	"os/exec"
 )
 
+var embeddedFile fs.FS
 
 func main(){
 
@@ -15,13 +17,20 @@ func main(){
 
 	CheckTestFile(fileSize);
 
-	fileserver := http.FileServer(http.Dir("./frontend"));
+
+	frontendFS, err := fs.Sub(embeddedFile, "frontend")
+	if err != nil {
+		log.Fatalf("Error creating sub filesystem: %v", err)
+	}
+
+	fileserver := http.FileServer(http.FS(frontendFS));
 	
 
 	mux := http.NewServeMux()
 	mux.Handle("/", fileserver)
 	mux.Handle("/download", http.HandlerFunc(DownloadTestFile))
 	log.Fatal(http.ListenAndServe(":8080", mux))
+	fmt.Println("Server started on http://localhost:8080")
 }
 
 
