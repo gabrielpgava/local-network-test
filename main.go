@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"fmt"
 	"io/fs"
 	"log"
@@ -8,7 +9,8 @@ import (
 	"os"
 )
 
-var embeddedFile fs.FS
+//go:embed frontend/*
+var embeddedFile embed.FS
 
 func main(){
 
