@@ -34,3 +34,7 @@ To remove generated binaries, run `make clean`.
 ---
 
 Made with ❤️ by Bi-Ga Tech
+
+## Licenciamento
+
+O código original deste projeto é distribuído sob a **PolyForm Shield License 1.0.0** (source-available, com restrição de uso concorrente). Leia [LICENSE](LICENSE), [NOTICE](NOTICE) e [LICENSING.md](LICENSING.md). Componentes de terceiros mantêm suas próprias licenças.
